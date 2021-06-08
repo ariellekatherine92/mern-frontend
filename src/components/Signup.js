@@ -27,9 +27,31 @@ const Signup = () => {
         handleConfirmPassword(e.target.value)
     }
 
-    const handleSubmit = (e) => {
-
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        // check to make sure passwords match
+        if (password === confirmPassword && password.length >= 8) {
+            const payload = { name, email, password };
+            let url = `${REACT_APP_SERVER_URL}/api/users/signup`;
+            try {
+                let response = await axios.post(url, payload);
+                let { data } = response;
+                console.log(data);
+                setRedirect(true);
+            } catch (error) {
+                alert('Error occurred, please try again...');
+            }
+        } else {
+            if (!password === confirmPassword) {
+                alert('Password and Confirm Password need to match. Please try again...');
+            } else {
+                alert('Password needs to be at least 8 characters or more. Please try again...');
+            }
+        }
     }
+
+    if (redirect) return <Redirect to = '/login' />
+
     return (
         <div className="row mt-4">
             <div className="col-md-7 offset-md-3">
