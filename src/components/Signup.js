@@ -6,9 +6,9 @@ const REACT_APP_SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
 const Signup = () => {
     const [name, setName] = useState('');
-    const [email, setEmail] = useState ('');
-    const [password, setPassword] = useState ('');
-    const [confirmPassword, setconfirmPassword] = ('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const [redirect, setRedirect] = useState(false);
 
     const handleName = (e) => {
@@ -16,25 +16,27 @@ const Signup = () => {
     }
 
     const handleEmail = (e) => {
-        setEmail(e.target.value)
+        setEmail(e.target.value);
     }
 
-    const handlePassword = (e) => {
-        setPassword(e.target.value)
+    const handlePassword = e => {
+        setPassword(e.target.value);
     }
 
-    const handleConfirmPassword = (e) => {
-        handleConfirmPassword(e.target.value)
+    const handleConfirmPassword = e => {
+        setConfirmPassword(e.target.value);
     }
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault()
         // check to make sure passwords match
         if (password === confirmPassword && password.length >= 8) {
             const payload = { name, email, password };
             let url = `${REACT_APP_SERVER_URL}/api/users/signup`;
+            console.log(url);
             try {
                 let response = await axios.post(url, payload);
+                console.log(response);
                 let { data } = response;
                 console.log(data);
                 setRedirect(true);
